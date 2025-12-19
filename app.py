@@ -43,6 +43,14 @@ st.set_page_config(
     }
 )
 
+# Check for statsmodels (required for trendlines)
+try:
+    import statsmodels.api as sm
+    trendline_mode = "ols"
+except ImportError:
+    trendline_mode = None
+
+
 # ========================================================
 # CUSTOM STYLING & CSS
 # ========================================================
@@ -400,7 +408,7 @@ if page == "🏠 Executive Dashboard":
             y="ad_revenue_usd",
             color="engagement_rate",
             size="subscribers",
-            trendline="ols",
+            trendline=trendline_mode,
             hover_data={"views": ":,", "ad_revenue_usd": ":.2f", "engagement_rate": ":.3f"},
             title="Revenue vs Views (colored by Engagement)",
             labels={"views": "Views", "ad_revenue_usd": "Revenue ($)", "engagement_rate": "Engagement Rate"},
@@ -653,7 +661,7 @@ elif page == "💡 Revenue Drivers":
             df_filtered,
             x="engagement_rate",
             y="ad_revenue_usd",
-            trendline="ols",
+            trendline=trendline_mode,
             title="Engagement Rate vs Revenue",
             labels={"engagement_rate": "Engagement Rate", "ad_revenue_usd": "Ad Revenue ($)"},
             color="rpm",
@@ -671,7 +679,7 @@ elif page == "💡 Revenue Drivers":
             df_filtered,
             x="watch_time_minutes",
             y="ad_revenue_usd",
-            trendline="ols",
+            trendline=trendline_mode,
             title="Watch Time vs Revenue",
             labels={"watch_time_minutes": "Watch Time (min)", "ad_revenue_usd": "Ad Revenue ($)"},
             color="views",
@@ -694,7 +702,7 @@ elif page == "💡 Revenue Drivers":
             df_filtered,
             x="subscribers",
             y="ad_revenue_usd",
-            trendline="ols",
+            trendline=trendline_mode,
             title="Subscribers vs Revenue",
             labels={"subscribers": "Subscribers", "ad_revenue_usd": "Ad Revenue ($)"},
             color="category",
@@ -709,7 +717,7 @@ elif page == "💡 Revenue Drivers":
             df_filtered,
             x="video_length_minutes",
             y="ad_revenue_usd",
-            trendline="ols",
+            trendline=trendline_mode,
             title="Video Length vs Revenue",
             labels={"video_length_minutes": "Video Length (min)", "ad_revenue_usd": "Ad Revenue ($)"},
             color="device",
@@ -759,7 +767,7 @@ elif page == "💡 Revenue Drivers":
             df_filtered,
             x="likes",
             y="ad_revenue_usd",
-            trendline="ols",
+            trendline=trendline_mode,
             title="Likes vs Revenue",
             labels={"likes": "Likes", "ad_revenue_usd": "Revenue ($)"},
             color_discrete_sequence=["#667eea"],
@@ -773,7 +781,7 @@ elif page == "💡 Revenue Drivers":
             df_filtered,
             x="comments",
             y="ad_revenue_usd",
-            trendline="ols",
+            trendline=trendline_mode,
             title="Comments vs Revenue",
             labels={"comments": "Comments", "ad_revenue_usd": "Revenue ($)"},
             color_discrete_sequence=["#764ba2"],
@@ -1611,5 +1619,4 @@ elif page == "🔬 Advanced Analytics":
     </div>
     
    
-
 """, unsafe_allow_html=True)
